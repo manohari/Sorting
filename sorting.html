@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Scrollable HTML table</title>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <script type="text/javascript" src="sortabletableNew.js"></script> 
+</head> 
+<body>
+<div id="wrapper">
+    <table cellspacing="1" cellpadding="2" class="sortable" id="sorter" width="400">
+        <tbody>
+            <tr>
+                <th class = "head">Name</th>
+                <th class = "head">Surename</th>
+                <th class = "head">Age</th>
+                <th class = "head">Region</th> 
+                <th class = "head">Lead Count</th>
+            </tr>
+        
+            <tr>
+                <td>John</td>
+                <td>Smith</td>
+                <td>38</td>
+                <td>Alaska</td> 
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>Clarke</td>
+                <td>Moore</td>
+                <td>31</td>
+                <td>california</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Thomas</td>
+                <td>Ray</td>
+                <td>32</td>
+                <td>Belgium</td> 
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>Albert</td>
+                <td>Batch</td>
+                <td>33</td>
+                <td>Moscow</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>Shilva</td>
+                <td>Chang</td>
+                <td>38</td>
+                <td>Euthopia</td> 
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>Kevin</td>
+                <td>Kelly</td>
+                <td>35</td>
+                <td>sanFransisco</td> 
+                <td>17</td>
+            </tr>
+            
+        </tbody> 
+    </table>
+</div> 
+<script type="text/javascript">
+    //var t = new SortableTable(document.getElementById('myTable'), 100);
+  var sorter=new sortTable.sorter("sorter");
+      sorter.init("sorter",1);
+</script>
+
+</body>
+</html>
+
