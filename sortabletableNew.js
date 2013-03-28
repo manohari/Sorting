@@ -1,66 +1,70 @@
-var sortTable=function() {
+function Sorter(id) {
     "use strict";
-    function sorter(id) {        
-        var tableId,tBody,tRows,colCount;
-        this.n = id; this.a = [];this.selectedColumn,this.sortOrder;
-        
+    var tableId,tBody,tRows,colCount;
+    this.n = id;         
+    this.sortedOrderList = [];
+    this.selectedColumn = '';
+    this.sortOrder = '';        
+}
+Sorter.prototype.init=function(t,f) {
+    "use strict";
+    var sortedOrderList, loop, rowCount;
+    this.tableId = document.getElementById(t);
+    this.tBody = document.getElementsByTagName('tbody')[0];
+    this.tRows = this.tBody.rows;
+    this.colCount = this.tRows[0].cells.length;
+    for (loop = 0; loop < this.colCount; loop+= 1) {           
+       this.tRows[0].cells[loop].onclick = new Function(this.n+'.sorting(this.cellIndex)');
     }
-    sorter.prototype.init=function(t,f) {
-        var a,i,c,x,l,rowCount,colLength,rows;
-        this.tableId = document.getElementById(t);
-        this.tBody = document.getElementsByTagName('tbody')[0];
-        this.tRows = this.tBody.rows;
-        this.colCount = this.tRows[0].cells.length;
-        for (i = 0; i < this.colCount; i+= 1) {           
-           this.tRows[0].cells[i].onclick = new Function(this.n+'.sorting(this.cellIndex)');
-           //this.tRows[0].cells[i].onclick = sorting();
-        }
-        for (rowCount = 0; rowCount < this.tRows.length-1; rowCount+= 1) {
-            this.a[rowCount]={};
-        }
+    for (rowCount = 0; rowCount < this.tRows.length-1; rowCount+= 1) {
+        this.sortedOrderList[rowCount]={};
     }
-    sorter.prototype.sorting = function(colNumber) {
-            var rowCount,c,i,x,v,newTable,r;
-            this.tBody=this.tableId.getElementsByTagName('tbody')[0];
-            this.tRows=this.tBody.rows;
-            rowCount = this.tRows.length; 
-            x = this.tRows[0].cells[colNumber];
-            for (i = 0; i < rowCount-1; i++){
-                this.a[i].o = i+1; 
-                v = this.tRows[i+1].cells[colNumber].firstChild;
-                        
-                this.a[i].value = (v!=null)?v.nodeValue:''
-            }
-         
-            for ( i=0; i<this.colCount; i+=1 ){
-                 c = this.tRows[0].cells[i];
-                 c.className='head';
-            }
-           if(this.selectedColumn === colNumber){
-                this.a.reverse(); 
-                x.className = (this.sortOrder)?'asc':'desc';
-                this.sortOrder = (this.sortOrder)?false:true
-            }else{
-                this.selectedColumn = colNumber; 
-                this.a.sort(compare); 
-                x.className='asc'; 
-                this.sortOrder=false
-            }
-            newTable = document.createElement('tbody');
-            newTable.appendChild(this.tRows[0]);
-            for ( i = 0; i < rowCount-1; i+= 1){      
-                 
-                r = this.tRows[this.a[i].o-1].cloneNode(true);
-                newTable.appendChild(r); 
-                r.className = ( i%2 === 0) ? 'even' : 'odd';
-            }
-            document.getElementById('sorter').replaceChild(newTable,this.tBody);
+};
+Sorter.prototype.sorting = function(colNumber) {
+    "use strict";
+    var rowCount,cssSymbol, loop, sortingColumn, tableElement, newTable, newTRows;
+    this.tBody = this.tableId.getElementsByTagName('tbody')[0];
+    this.tRows = this.tBody.rows;
+    rowCount = this.tRows.length; 
+    sortingColumn = this.tRows[0].cells[colNumber];
+    for (loop = 0; loop < rowCount-1; loop+= 1){
+        this.sortedOrderList[loop].o = loop+1; 
+        tableElement = this.tRows[loop+1].cells[colNumber].firstChild;                    
+        this.sortedOrderList[loop].value = (tableElement!==null) ? tableElement.nodeValue : '';
+    }     
+    for (loop = 0; loop<this.colCount; loop+= 1){
+         cssSymbol = this.tRows[0].cells[loop];
+         cssSymbol.className = 'head';
     }
-    function compare(f,c){
-        f=f.value,c=c.value;
-        var i=parseFloat(f.replace(/(\$|\,)/g,'')),n=parseFloat(c.replace(/(\$|\,)/g,''));
-        if(!isNaN(i)&&!isNaN(n)){f=i,c=n}
-        return (f>c?1:(f<c?-1:0))
+    if(this.selectedColumn === colNumber){
+        this.sortedOrderList.reverse(); 
+        sortingColumn.className = (this.sortOrder) ? 'asc':'desc';
+        this.sortOrder = (this.sortOrder) ? false:true;
+    }else{
+        this.selectedColumn = colNumber; 
+        this.sortedOrderList.sort(compare); 
+        sortingColumn.className = 'asc'; 
+        this.sortOrder = false;
     }
-   return{sorter:sorter}
-}();
+    newTable = document.createElement('tbody');
+    newTable.appendChild(this.tRows[0]);
+    for (loop = 0; loop < rowCount-1; loop+= 1){ 
+        newTRows = this.tRows[this.sortedOrderList[loop].o-1].cloneNode(true);
+        newTable.appendChild(newTRows); 
+        newTRows.className = ( loop%2 === 0) ? 'even' : 'odd';
+    }
+    document.getElementById('sorter').replaceChild(newTable,this.tBody);
+};
+function compare(f,c){
+    "use strict";
+    f = f.value;
+    c = c.value;
+    var i,n;
+    i=parseFloat(f.replace(/(\$|\,)/g,''));
+    n=parseFloat(c.replace(/(\$|\,)/g,''));
+    if(!isNaN(i)&&!isNaN(n)) { 
+        f = i;
+        c = n;
+    }
+    return ( f > c ? 1 : ( f < c ? -1: 0))
+}
