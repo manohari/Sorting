@@ -1,30 +1,28 @@
-function Sorter(id) {
-    "use strict";
-    var tableId,tBody,tRows,colCount;
-    this.n = id;         
+function Sorter() {
+    "use strict";       
     this.sortedOrderList = [];
     this.selectedColumn = '';
     this.sortOrder = '';        
 }
-Sorter.prototype.init=function(t,f) {
+Sorter.prototype.init=function() {
     "use strict";
-    var sortedOrderList, loop, rowCount;
-    this.tableId = document.getElementById(t);
-    this.tBody = document.getElementsByTagName('tbody')[0];
-    this.tRows = this.tBody.rows;
-    this.colCount = this.tRows[0].cells.length;
-    for (loop = 0; loop < this.colCount; loop+= 1) {           
-       this.tRows[0].cells[loop].onclick = new Function(this.n+'.sorting(this.cellIndex)');
+    var sortedOrderList, loop, rowCount,tBody,tRows,colCount;
+    tBody = document.getElementsByTagName('tbody')[0];
+    tRows = tBody.rows;
+    colCount = tRows[0].cells.length;
+    for (loop = 0; loop < colCount; loop+= 1) {           
+       tRows[0].cells[loop].onclick = new Function('sorter'+'.sorting(this.cellIndex)');
     }
-    for (rowCount = 0; rowCount < this.tRows.length-1; rowCount+= 1) {
+    for (rowCount = 0; rowCount < tRows.length-1; rowCount+= 1) {
         this.sortedOrderList[rowCount]={};
     }
 };
 Sorter.prototype.sorting = function(colNumber) {
     "use strict";
     var rowCount,cssSymbol, loop, sortingColumn, tableElement, newTable, newTRows;
-    this.tBody = this.tableId.getElementsByTagName('tbody')[0];
-    this.tRows = this.tBody.rows;
+    this.tBody = document.getElementsByTagName('tbody')[0];
+    this.tRows = this.tBody.rows;    
+    this.colCount = this.tRows[0].cells.length;
     rowCount = this.tRows.length; 
     sortingColumn = this.tRows[0].cells[colNumber];
     for (loop = 0; loop < rowCount-1; loop+= 1){
