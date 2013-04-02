@@ -3,7 +3,7 @@ describe("Sorter", function() {
    sortObj = new Sorter('sorter');
    sortObj.sortedOrderList = [];
    beforeEach(function() {
-     var htmlTable,htmlTBody,htmlTRow,newCell,newText,row,MAX_VALUE=4,col,randomnumber,headArray;
+     var htmlTable,htmlTBody,htmlTRow,newCell,newText,row,MAX_VALUE=4,col,randomData,headArray;
      htmlTable = document.createElement('table');
      htmlTable.id = 'sorter';
      htmlTBody = document.createElement('tbody');
@@ -22,8 +22,13 @@ describe("Sorter", function() {
          htmlTRow = tableId.insertRow(row);
          for (col=0;col <= MAX_VALUE; col+= 1) {
              newCell  = htmlTRow.insertCell(col); 
-             randomnumber=Math.floor(Math.random()*11);
-             newText  = document.createTextNode(randomnumber);
+             if (col === 2 || col === 4) {
+                randomData = Math.floor(Math.random()*11);
+             } 
+             else {
+                randomData= Math.random().toString(36).substr(2,16)
+             }
+             newText  = document.createTextNode(randomData);
              newCell.appendChild(newText);
          }
      }
