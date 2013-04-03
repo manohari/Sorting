@@ -26,7 +26,7 @@ describe("Sorter", function() {
                 randomData = Math.floor(Math.random()*11);
              } 
              else {
-                randomData= Math.random().toString(36).substr(2,16)
+                randomData= Math.random().toString(36).substr(2,16);
              }
              newText  = document.createTextNode(randomData);
              newCell.appendChild(newText);
@@ -40,38 +40,49 @@ describe("Sorter", function() {
           elem.parentNode.removeChild(elem);
         }
     });
-  it("sorting initiated ", function() {
-    sortObj.init();     
-    expect(true).toBe(true);
+  it("Check if table exist and then initiate sorting", function() {
+     var numOfRows,tableId,numOfcol;
+     tableId = document.getElementById('sorter');
+     numOfRows = document.getElementsByTagName('tbody')[0].rows.length;
+     numOfcol = document.getElementsByTagName('tbody')[0].rows[0].cells.length;
+     expect(tableId).toBeDefined();
+     expect(numOfRows).toEqual(4);
+     expect(numOfcol).toEqual(5);
+     sortObj.init();   
+     
   });
-   describe("First Column Sorting", function() {
+   describe("First Column Descending Order Sorting", function() {
        it("Completed Successfully ", function() {
+           //if sortObj.sortOrder is true then descending order sorting holds good
+           sortObj.selectedColumn = 0;
            sortObj.sorting(0);
-           expect(true).toBe(true);
+           expect(sortObj.sortOrder).toBeTruthy();
        });
    });
-   describe("Second Column Sorting", function() {
-       it("Completed Successfully ", function() {
+   describe("Second Column Ascending Order Sorting", function() {
+       it("Completed Successfully ", function() {   
+           //if sortObj.sortOrder is false then ascending order sorting holds good        
            sortObj.sorting(1);
-           expect(true).toBe(true);
+           expect(sortObj.sortOrder).toBeFalsy();
        });
    });
-   describe("Third Column Sorting", function() {
+   describe("Third Column Ascending Order Sorting", function() {
        it("Completed Successfully ", function() {
            sortObj.sorting(2);
-           expect(true).toBe(true);
+           expect(sortObj.sortOrder).toBeFalsy();
        });
    });
-   describe("Fourth Column Sorting", function() {
+   describe("Fourth Column Ascending Order Sorting", function() {
        it("Completed Successfully ", function() {
-           sortObj.sorting(0);
-           expect(true).toBe(true);
+           sortObj.sorting(3);
+           expect(sortObj.sortOrder).toBeFalsy();
        });
    });
-   describe("Fifth Column Sorting", function() {
+   describe("Fifth Column Descending Order Sorting", function() {
        it("Completed Successfully ", function() {
-           sortObj.sorting(0);
-           expect(true).toBe(true);
+           sortObj.selectedColumn = 4;
+           sortObj.sorting(4);
+           expect(sortObj.sortOrder).toBeTruthy();
        });
    });
   
