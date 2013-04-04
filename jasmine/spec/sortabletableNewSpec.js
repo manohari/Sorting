@@ -1,6 +1,6 @@
 describe("Sorter", function() {
    var sortObj;
-   sortObj = new Sorter('sorter');
+   sortObj = new Sorter();
    sortObj.sortedOrderList = [];
    beforeEach(function() {
      var htmlTable,htmlTBody,htmlTRow,newCell,newText,row,MAX_VALUE=4,col,randomData,headArray;
@@ -40,50 +40,35 @@ describe("Sorter", function() {
           elem.parentNode.removeChild(elem);
         }
     });
-  it("Check if table exist and then initiate sorting", function() {
-     var numOfRows,tableId,numOfcol;
-     tableId = document.getElementById('sorter');
-     numOfRows = document.getElementsByTagName('tbody')[0].rows.length;
-     numOfcol = document.getElementsByTagName('tbody')[0].rows[0].cells.length;
-     expect(tableId).toBeDefined();
-     expect(numOfRows).toEqual(4);
-     expect(numOfcol).toEqual(5);
-     sortObj.init();   
-     
+  describe("Table sorting Specs", function() {
+      it("Table Exist", function() {
+         var tableId;
+         tableId = document.getElementById('sorter');    
+         expect(tableId).toBeDefined();    
+         
+      });
+      it("Rows Exist", function() {
+         var numOfRows;
+         numOfRows = document.getElementsByTagName('tbody')[0].rows.length;
+         expect(numOfRows).toEqual(4);    
+         
+      });
+      it("Columns Exist", function() {
+         var numOfcol;
+         numOfcol = document.getElementsByTagName('tbody')[0].rows[0].cells.length;
+         expect(numOfcol).toEqual(5);   
+         
+      });
+      it("Sorting initiated and sorted", function() {             
+             sortObj.init();   
+           //if sortObj.sortOrder is true then descending order sorting holds good           
+             sortObj.selectedColumn = 0;
+             sortObj.sorting(0);               
+             expect(sortObj.sortOrder).toBeTruthy();
+           
+       });
   });
-   describe("First Column Descending Order Sorting", function() {
-       it("Completed Successfully ", function() {
-           //if sortObj.sortOrder is true then descending order sorting holds good
-           sortObj.selectedColumn = 0;
-           sortObj.sorting(0);
-           expect(sortObj.sortOrder).toBeTruthy();
-       });
-   });
-   describe("Second Column Ascending Order Sorting", function() {
-       it("Completed Successfully ", function() {   
-           //if sortObj.sortOrder is false then ascending order sorting holds good        
-           sortObj.sorting(1);
-           expect(sortObj.sortOrder).toBeFalsy();
-       });
-   });
-   describe("Third Column Ascending Order Sorting", function() {
-       it("Completed Successfully ", function() {
-           sortObj.sorting(2);
-           expect(sortObj.sortOrder).toBeFalsy();
-       });
-   });
-   describe("Fourth Column Ascending Order Sorting", function() {
-       it("Completed Successfully ", function() {
-           sortObj.sorting(3);
-           expect(sortObj.sortOrder).toBeFalsy();
-       });
-   });
-   describe("Fifth Column Descending Order Sorting", function() {
-       it("Completed Successfully ", function() {
-           sortObj.selectedColumn = 4;
-           sortObj.sorting(4);
-           expect(sortObj.sortOrder).toBeTruthy();
-       });
-   });
+ 
+ 
   
 });
