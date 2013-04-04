@@ -41,20 +41,18 @@ describe("Sorter", function() {
         }
     });
   describe("Table sorting Specs", function() {
-      it("Table Exist", function() {
-         var tableId;
+       var tableId,numOfRows,numOfcol;
+      it("Table Exist", function() {        
          tableId = document.getElementById('sorter');    
          expect(tableId).toBeDefined();    
          
       });
-      it("Rows Exist", function() {
-         var numOfRows;
+      it("Rows Exist", function() {         
          numOfRows = document.getElementsByTagName('tbody')[0].rows.length;
          expect(numOfRows).toEqual(4);    
          
       });
       it("Columns Exist", function() {
-         var numOfcol;
          numOfcol = document.getElementsByTagName('tbody')[0].rows[0].cells.length;
          expect(numOfcol).toEqual(5);   
          
