@@ -1,47 +1,57 @@
 describe("Table sorting Specs", function() {
-    var sortAsc,sortDesc;
+    var sortAsc,sortDesc,SortObj;
+    SortObj = new Sort();
     describe("Ascending Order test suite",function(){
+       
+        
         it("Integer Testing", function() {
-            sortAsc = sorting("asc","int");              
-            expect(sortAsc).toBe(true);
+            SortObj.sorting("asc","int"); 
+            expect(SortObj.isDataArray).toBeTruthy();             
+            expect(SortObj.sortedAscending).toBe(true);
      
         });
         it("String Testing", function() {
-            sortAsc = sorting("asc","string");              
-            expect(sortAsc).toBe(true);
+            SortObj.sorting("asc","string");  
+            expect(SortObj.isDataArray).toBeTruthy();              
+            expect(SortObj.sortedAscending).toBe(true);
      
         });
         it("Null or undefined Testing", function() {
-            sortAsc = sorting("asc","");              
-            expect(sortAsc).toBe(false);
+            sortData = SortObj.sorting("asc",""); 
+            expect(SortObj.isDataArray).toBeTruthy();               
+            expect(sortData).toBe(false);
      
         });
-        it("No order testing", function() {
-            sortAsc = sorting();              
-            expect(sortAsc).toBe(false);
+        it("Negative testing", function() {
+            sortData = SortObj.sorting();       
+            expect(sortData).toBe(false);
      
         });
+        
         
     });  
     describe("Descending Order test suite", function() { 
         it("Integer Testing", function() {
-            sortDesc = sorting("desc","int");              
-            expect(sortDesc).toBe(true);
+            SortObj.sorting("desc","int");
+            expect(SortObj.isDataArray).toBeTruthy();                
+            expect(SortObj.sortedDescending).toBe(true);
      
         });
         it("String Testing", function() {
-            sortDesc = sorting("desc","string");              
-            expect(sortDesc).toBe(true);
+            SortObj.sorting("desc","string"); 
+            expect(SortObj.isDataArray).toBeTruthy();               
+            expect(SortObj.sortedDescending).toBe(true);
      
         });
         it("Null or undefined Testing", function() {
-            sortDesc = sorting("desc","");              
-            expect(sortDesc).toBe(false);
+            sortData = SortObj.sorting("desc","");  
+            expect(SortObj.isDataArray).toBeTruthy();              
+            expect(sortData).toBe(false);
      
         });
-        it("No order testing", function() {
-            sortDesc = sorting();              
-            expect(sortDesc).toBe(false);
+        it("Negative testing", function() {
+            sortData = SortObj.sorting();              
+            expect(sortData).toBe(false);
      
         });
     });
