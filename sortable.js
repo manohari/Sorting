@@ -5,7 +5,7 @@ function Sorter() {
 Sorter.sortedOrderList = [];
 Sorter.prototype.init=function() {
     "use strict";
-   var loop, rowCount,tBody,tRows,colCount,selectedColumn = '',sortOrder = ''; 
+   var loop, rowCount,tBody,tRows,colCount,selectedColumn = '',sortOrder = '';
     tBody = document.getElementsByTagName('tbody')[0];
     tRows = tBody.rows;
     colCount = tRows[0].cells.length;
@@ -38,11 +38,12 @@ Sorter.prototype.sorting = function(colNumber) {
         sortingColumn.className = (this.sortOrder) ? 'asc':'desc';
         this.sortOrder = (this.sortOrder) ? false:true;
     }else{
-        this.selectedColumn = colNumber; 
-        Sorter.sortedOrderList.sort(compare); 
-        sortingColumn.className = 'asc'; 
+        this.selectedColumn = colNumber;
+        Sorter.sortedOrderList = this.sortData(Sorter.sortedOrderList,'asc');
+		sortingColumn.className = 'asc'; 
         this.sortOrder = false;
     }
+   
     newTable = document.createElement('tbody');
     newTable.appendChild(this.tRows[0]);
     for (loop = 0; loop < rowCount-1; loop+= 1){ 
@@ -52,10 +53,31 @@ Sorter.prototype.sorting = function(colNumber) {
     }
     document.getElementById('sorter').replaceChild(newTable,this.tBody);
 };
+Sorter.prototype.sortData = function(sortArray,sortType) {
+   "use strict";
+   sortArray.sort(compare);
+   if (sortType === 'desc') {
+        sortArray.reverse();
+   }
+   return sortArray; 
+};
+
+Sorter.prototype.ignoreCaseSensitive = function(stringArray,sortType) {
+    "use strict";
+    stringArray.sort(function(a,b) {
+        return a.localeCompare(b);
+    });
+    
+    if(sortType === 'desc') {
+        stringArray.reverse();
+    }
+    return stringArray;
+};
+
 function compare(f,c){
     "use strict";
-    f = f.value;
-    c = c.value;
+    f = (typeof(f.value) !== 'undefined' ? f.value : f.toString());
+    c = (typeof(c.value) !== 'undefined' ? c.value : c.toString());
     var i,n;
     i=parseFloat(f.replace(/(\$|\,)/g,''));
     n=parseFloat(c.replace(/(\$|\,)/g,''));
@@ -63,5 +85,5 @@ function compare(f,c){
         f = i;
         c = n;
     }
-    return ( f > c ? 1 : ( f < c ? -1: 0))
+    return ( f > c ? 1 : ( f < c ? -1: 0));
 }
