@@ -74,6 +74,15 @@ Sorter.prototype.ignoreCaseSensitive = function(stringArray,sortType) {
     return stringArray;
 };
 
+Sorter.prototype.sortWithoutCompare = function(sortArray,sortType) {
+   "use strict";
+   sortArray.sort();
+   if (sortType === 'desc') {
+        sortArray.reverse();
+   }
+   return sortArray; 
+};
+
 function compare(f,c){
     "use strict";
     f = (typeof(f.value) !== 'undefined' ? f.value : f.toString());
